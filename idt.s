@@ -87,7 +87,7 @@ IRQ 15,  47
 .extern isr_handler
 .global isr_common_stub
 isr_common_stub:
-    pusha
+    pusha 
     movl %ds, %eax
     pushl %eax
     movl %cr2, %eax
@@ -114,7 +114,7 @@ isr_common_stub:
 .global irq_common_stub
 irq_common_stub:
     pusha
-    movl %ds, %eax
+    movl %ds, %eax; 
     pushl %eax
     movl %cr2, %eax
     pushl %eax

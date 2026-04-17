@@ -26,10 +26,25 @@ void putchar (int c)
     newline:
       xpos = 0;
       ypos++;
-      if (ypos >= LINES)
-        ypos = 0;
+      if (ypos >= LINES){
+	scrollUp();
+	ypos = LINES - 1;
+        xpos = 0;
+      }
       return;
     }
+
+  if (c == '\b') {
+	if (xpos == 0 && ypos != 0){
+		xpos = COLUMNS;
+		ypos--;
+	}
+
+  	*(video + ((xpos - 1)+ ypos * COLUMNS) * 2) = ' ' & 0xFF;
+  	*(video + ((xpos - 1) + ypos * COLUMNS) * 2 + 1) = ATTRIBUTE;
+	xpos--;
+	return;
+  }
 
   *(video + (xpos + ypos * COLUMNS) * 2) = c & 0xFF;
   *(video + (xpos + ypos * COLUMNS) * 2 + 1) = ATTRIBUTE;
@@ -143,6 +158,24 @@ void printf (const char *format, ...)
     }
 }
 
+
+void scrollUp(){
+
+
+    for (uint16_t y = 0; y < LINES; y++){
+        for (uint16_t x = 0; x < COLUMNS; x++){
+	    video[(x+ (y- 1) * COLUMNS) * 2] = video[(x+ (y) * COLUMNS) * 2];
+  	    video[(x+ (y- 1) * COLUMNS) * 2 + 1] = video[(x+ (y) * COLUMNS) * 2 + 1];
+
+        }
+    }
+
+    for (uint16_t x = 0; x < COLUMNS; x++){
+	    video[((LINES - 1) * COLUMNS + x) * 2] = ' ' & 0xFF;;
+  	    video[((LINES - 1) * COLUMNS + x) * 2 + 1] = ATTRIBUTE;
+
+    }
+}
 
 
 

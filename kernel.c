@@ -19,11 +19,11 @@
 void kernel_main() 
 {
 	cls();
+	clear_screens();
 	initGdt();
 	initIDT();
 	initKeyboard();
-	printf("all good\n");
-	for(;;) {
+		for(;;) {
         asm volatile("hlt"); // 'hlt' saves power until an interrupt arrives
     }
 }

@@ -17,18 +17,28 @@ typedef unsigned long int uint32_t;
 #define LINES                   24
 /* The attribute of an character. */
 #define ATTRIBUTE               240 
+#define ATTRIBUTE               240 
 /* The video memory address. */
 #define VIDEO                   0xB8000
 
+extern volatile  unsigned char* video;
+extern int xpos;
+extern int ypos;
 void cls (void);
 void putchar (int c);
 void itoa (char *buf, int base, int d);
 void printf (const char *format, ...);
 void	*ft_memset(void *b, int c, uint32_t len);
+void scrollUp();
+void clear_screens();
+void switchScreen();
 
 
-
-
+// screen struct 
+struct s_screens{
+	int xpos;
+	int ypos;
+};
 // gdt  
 struct gdt_entry_struct{
     uint16_t limit;
